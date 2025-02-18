@@ -22,21 +22,21 @@ def load_model(filename):
 # Load the model when starting the program
 model = load_model('model')
 
-def predict(vetor):
+def predict(image_vector):
     # Uses the loaded model to make a prediction
-    resultado = model.predict(vetor)[0]
-    messagebox.showinfo("Result", f"The number is : {resultado}")
+    result = model.predict(image_vector)[0]
+    messagebox.showinfo("Prediction", f"Digit: {result}")
 
 # Drawing application class
 class DrawingApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Drawing Canvas 28x28")
+        self.root.title("My Drawing Canvas 28x28")
 
         # Canvas settings
-        self.canvas_size = 280  # Canvas size in pixels
+        self.canvas_size = 680  # Canvas size in pixels
         self.image_size = 28  # Image size for vectorization
-        self.brush_size = 10  # Size of the white brush
+        self.brush_size = 20  # Size of the white brush
 
         # Canvas for drawing
         self.canvas = tk.Canvas(root, bg="black", width=self.canvas_size, height=self.canvas_size)
@@ -50,11 +50,11 @@ class DrawingApp:
         self.button_frame = tk.Frame(root)
         self.button_frame.pack()
         
-        self.predict_button = tk.Button(self.button_frame, text="Tell the number", command=self.predict_image)
+        self.predict_button = tk.Button(self.button_frame, text="  Predict The Digit  ", command=self.predict_image)
         self.predict_button.pack(side="left")
 
-        self.clear_button = tk.Button(self.button_frame, text="Erase", command=self.clear_canvas)
-        self.clear_button.pack(side="left")
+        self.clear_button = tk.Button(self.button_frame, text="  Erase  ", command=self.clear_canvas)
+        self.clear_button.pack(side="right")
 
         # Drawing event
         self.canvas.bind("<B1-Motion>", self.paint)
@@ -65,12 +65,12 @@ class DrawingApp:
         x2, y2 = (event.x + self.brush_size), (event.y + self.brush_size)
         
         # Draw on the canvas (screen) with a white brush
-        self.canvas.create_oval(x1, y1, x2, y2, fill="white", outline="white")
+        self.canvas.create_oval(x1, y1, x2, y2, fill="yellow", outline="yellow")
 
         # Draw on the 28x28 image for vectorization
         scaled_x1, scaled_y1 = (x1 * self.image_size // self.canvas_size), (y1 * self.image_size // self.canvas_size)
         scaled_x2, scaled_y2 = (x2 * self.image_size // self.canvas_size), (y2 * self.image_size // self.canvas_size)
-        self.draw.ellipse([scaled_x1, scaled_y1, scaled_x2, scaled_y2], fill="white")
+        self.draw.ellipse([scaled_x1, scaled_y1, scaled_x2, scaled_y2], fill="yellow")
 
     def predict_image(self):
         # Convert the image to a vector and normalize the values (0 to 1)
