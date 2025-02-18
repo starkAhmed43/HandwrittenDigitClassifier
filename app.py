@@ -85,5 +85,6 @@ class DrawingApp:
 
 # Application initialization
 root = tk.Tk()
+root.tk.call('tk','scaling',4.0)
 app = DrawingApp(root)
 root.mainloop()
