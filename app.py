@@ -25,7 +25,7 @@ model = load_model('model')
 def predict(image_vector):
     # Uses the loaded model to make a prediction
     result = model.predict(image_vector)[0]
-    messagebox.showinfo("Prediction", f"Digit: {result}")
+    messagebox.showinfo("Result", f"Digit: {result}")
 
 # Drawing application class
 class DrawingApp:

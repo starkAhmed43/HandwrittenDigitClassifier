@@ -154,13 +154,13 @@ def predict(X, weights):
     return np.argmax(A3, axis=1)
 
 # Save model function
-def save_model(name, model):
-    with open(name+'.pkl', 'wb') as file: 
+def save_model(file_name, model):
+    with open(file_name+'.pkl', 'wb') as file: 
         pickle.dump(model,file)
 
 # Load model function
-def load_model(name):
-    with open(name+'.pkl', 'rb') as file:
+def load_model(file_name):
+    with open(file_name+'.pkl', 'rb') as file:
         model_loaded = pickle.load(file)
 
     return model_loaded
