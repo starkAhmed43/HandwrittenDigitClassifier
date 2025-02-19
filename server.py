@@ -16,7 +16,7 @@ def load_model(path):
 model = load_model(Path('./model.pkl'))
     
 def predict(image_vector):
-    result = model.predict(image_vector)[0]
+    result = model.predict(image_vector)
     return int(result)
 
 inference_app = FastAPI()
@@ -25,7 +25,7 @@ inference_app = FastAPI()
 def get_prediction(image_vector: ImageVector):
     image_json = image_vector.image_json
     image_vector = [image_json[f'pixel_{i}'] for i in range(28 * 28)]
-    image_vector = np.array(image_vector).reshape(1, -1)
+    image_vector = np.array(image_vector).reshape(-1,)
     return {'prediction': predict(image_vector)}
 
 if __name__ == '__main__':
