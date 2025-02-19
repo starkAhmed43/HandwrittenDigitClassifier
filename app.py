@@ -1,31 +1,10 @@
-import os
+import requests
+import numpy as np
 import tkinter as tk
 from tkinter import messagebox
-import numpy as np
 from PIL import Image, ImageDraw
-import pickle
-from utils import *
-from dense_neural_class import *
 
-# Function to load the model with absolute path
-def load_model(filename):
-    # Gets the current directory where the script is being executed
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Constructs the full path of the .pkl file
-    filepath = os.path.join(current_dir, filename + '.pkl')
-    
-    with open(filepath, 'rb') as file:
-        model_loaded = pickle.load(file)
-    
-    return model_loaded
-
-# Load the model when starting the program
-model = load_model('model')
-
-def predict(image_vector):
-    # Uses the loaded model to make a prediction
-    result = model.predict(image_vector)[0]
-    messagebox.showinfo("Result", f"Digit: {result}")
+URL = "http://localhost:5402/predict"
 
 # Drawing application class
 class DrawingApp:
@@ -74,8 +53,10 @@ class DrawingApp:
 
     def predict_image(self):
         # Convert the image to a vector and normalize the values (0 to 1)
-        image_data = np.array(self.image).reshape(1, -1) / 255.0
-        predict(image_data)
+        image_data = np.array(self.image).reshape(-1,) / 255.0
+        image_vector = image_data.tolist()
+        result = requests.post(URL, json={"image_json": {f"pixel_{i}": float(pixel) for i, pixel in enumerate(image_vector)}}).json()["prediction"]
+        messagebox.showinfo("Result", f"Digit: {result}")
 
     def clear_canvas(self):
         # Clears the canvas and creates a new black image
