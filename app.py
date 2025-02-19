@@ -1,10 +1,14 @@
 import requests
+import argparse
 import numpy as np
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageDraw
 
-URL = "http://localhost:5402/predict"
+parser = argparse.ArgumentParser(description="Drawing App")
+parser.add_argument('--url', type=str, required=True, help='URL of the prediction endpoint')
+args = parser.parse_args()
+URL = args.url
 
 # Drawing application class
 class DrawingApp:
@@ -64,8 +68,9 @@ class DrawingApp:
         self.image = Image.new("L", (self.image_size, self.image_size), "black")
         self.draw = ImageDraw.Draw(self.image)
 
-# Application initialization
-root = tk.Tk()
-root.tk.call('tk','scaling',4.0)
-app = DrawingApp(root)
-root.mainloop()
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.tk.call('tk','scaling',4.0)
+    app = DrawingApp(root)
+    root.mainloop()
